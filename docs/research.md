@@ -15,3 +15,9 @@ Accredit Solutions scored 13/30 (1,3,2,1,3,3). Its annual bill was not verified 
 ReturnGO scored 18/30 (1,4,2,3,4,4). No qualifying five-figure public plan was verified and commerce connectors are central: https://support.returngo.ai/subscription-plans
 
 The import evidence and limitations are in replace-intelligencebank.md. Rules and sources are in compliance.md. There is no evidence that IntelligenceBank cannot answer our ten questions through custom reports. We describe them as questions this base answers, not unsupported vendor deficiencies.
+
+## Verification this run
+
+The 85-check npm test suite passed on Linux with PGlite and with a disposable local Postgres 18.4 database. npm run demo passed. The page gate passed, and a browser check of the actual landing template confirmed noindex, three offer paths, three real output examples, tracked booking links and no horizontal overflow at a 390px width. The page and branded report were inspected visually.
+
+GitHub Actions run https://github.com/Enterprise-DNA-OS/marketing-approvals-for-claude-code/actions/runs/41141475295 did not start any jobs. GitHub reported an account payment or spending-limit block. Windows and hosted Postgres 17 verification therefore remain unrun; the local Linux results above are the executed checks.
