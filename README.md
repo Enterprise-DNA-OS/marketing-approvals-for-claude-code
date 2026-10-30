@@ -1,115 +1,114 @@
-<h1 align="center">Marketing Approvals for Claude Code</h1>
+# Marketing Approvals for Claude Code
 
-<p align="center">
-  <strong>The open-source marketing approvals desk that is just a database and Claude Code.</strong>
-</p>
+Keep exact marketing wording, its supporting evidence and the decision about that version together in a database you own.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+## Three ways to use it
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your IntelligenceBank data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=intelligencebank">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/intelligencebank?utm_source=github&utm_medium=readme&utm_campaign=intelligencebank">How it works</a></td>
-  </tr>
-</table>
+- **Do it yourself:** free MIT source. Install Node 20 or later, run the demo, then use Claude Code, Codex, OpenCode or Cursor with the same commands. Hosting and agent subscriptions are separate.
+- **We customise it:** your IntelligenceBank records mapped, your review roles and rules, your access controls and connected proofing built around your business. One setup fee, then a retainer.
+- **We run it for you:** installation, backups, controlled access and the weekly approvals desk through Omni by Enterprise DNA. One setup fee, then a retainer.
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-intelligencebank">Instead of IntelligenceBank</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+[Book 30 minutes with Sam](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=intelligencebank&utm_medium=readme).
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
+## The bill and the scope
 
----
+IntelligenceBank's [vendor-authored marketplace offer](https://aws.amazon.com/marketplace/pp/prodview-35ui55oaagquq) lists an indicative US$15,000 starting annual Marketing Ops contract, checked 30 October 2026. It is a starting price, not a customer invoice or a quote for every compliance feature.
 
-## What is this
+This base covers briefs, wording versions, inventoried claims, evidence references, brand/legal review records, deadlines and recorded external releases. It does not replicate media processing, visual markup, authenticated approval portals or website scanning. A trusted operator records decisions made externally. No command sends or publishes. Legal review remains with the business and its advisers.
 
-Marketing Approvals for Claude Code does the job you pay IntelligenceBank for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the IntelligenceBank dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays IntelligenceBank per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=intelligencebank).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
-
-## Quick start
-
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+## Start with fictional data
 
 ```bash
-git clone https://github.com/Enterprise-DNA-OS/marketing-approvals-for-claude-code.git
-cd marketing-approvals-for-claude-code
 npm install
+npm test
 npm run demo
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The demo runs in a disposable PGlite database and removes it afterwards. For an empty working database, run npm run migrate. DATABASE_URL selects private Postgres. Without it, DATA_DIR selects local embedded storage. The seed requires DEMO_DATA=yes and is for disposable databases only. Never seed the working database.
 
-### Use it with your own Postgres or Supabase
-
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
-
-## The commands
-
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
-
-| Command | What it does |
-|---|---|
-| `/...` | ... |
-
-## Instead of IntelligenceBank
-
-<!-- TODO(author): how to bring data across from IntelligenceBank; link docs/replace-intelligencebank.md -->
-
-## Architecture
-
-```
-marketing-approvals-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
+```bash
+node scripts/approvals.mjs attention
+node scripts/approvals.mjs claim-evidence --json
+node scripts/approvals.mjs review-queue
+npm run view
+npm run docs
 ```
 
-## Built for coding agents
+The weekly rituals are /review-queue, /claim-evidence, /expiry-watch, /launch-readiness and /weekly-review. /compliance checks missing records against the sourced rules in docs/compliance.md. A clean record check does not establish legal compliance or prove a claim is true.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Commands
 
-## Contributing
+- /briefs: List briefs and accountable owners. Run `node scripts/approvals.mjs briefs`.
+- /brief: Read one brief and its version history. Run `node scripts/approvals.mjs brief "<code or name>"`.
+- /review-queue: Find the brand and legal decisions still needed. Run `node scripts/approvals.mjs review-queue`.
+- /claim-evidence: Show the wording and evidence behind current claims. Run `node scripts/approvals.mjs claim-evidence`.
+- /expiry-watch: Find missing, expired and soon-expiring support. Run `node scripts/approvals.mjs expiry-watch`.
+- /launch-readiness: Check the current version before a launch review. Run `node scripts/approvals.mjs launch-readiness`.
+- /attention: Find late briefs, evidence gaps and missing reviews. Run `node scripts/approvals.mjs attention`.
+- /owner-load: Balance open work and overdue briefs by owner. Run `node scripts/approvals.mjs owner-load`.
+- /compliance: Check record gaps using docs/compliance.md. These are evidence checks, not a legal determination. Run `node scripts/approvals.mjs compliance`.
+- /releases: Read the record of releases performed outside this system. Run `node scripts/approvals.mjs releases`.
+- /history: Read the append-only activity history. Actor labels are not authenticated identities. Run `node scripts/approvals.mjs history`.
+- /insights: Answer the ten cross-record questions using actual output. Run `node scripts/approvals.mjs insights`.
+- /add: Create a draft brief from supplied facts. Run `node scripts/approvals.mjs add --code=<unique> --name="<title>" --owner="<owner>" --campaign="<campaign>" --jurisdiction=NZ --due=YYYY-MM-DD --copy="<exact wording>" --channel=email --reference="<creative evidence>" --actor="<operator>"`.
+- /revise: Add a new wording version. Old claims and reviews stay with the old version. Re-inventory claims, attach support and obtain fresh decisions. Run `node scripts/approvals.mjs revise --brief=<code> --copy="<new exact wording>" --channel=email --reference="<creative version reference>" --actor="<operator>"`.
+- /add-claim: Inventory a factual claim before requesting review. Claim inventory freezes once reviews start. Run `node scripts/approvals.mjs add-claim --brief=<code> --code=<unique-claim-code> --statement="<exact claim>" --kind=performance --actor="<operator>"`.
+- /evidence: Record the actual basis for one current claim. Evidence does not itself prove that a claim is true. Dates are chosen by the reviewer. If decisions exist, revise first. Run `node scripts/approvals.mjs evidence --brief=<code> --claim=<claim-code> --reference="<source reference>" --explanation="<why this supports the claim>" --date=YYYY-MM-DD --until=YYYY-MM-DD --reviewer="<reviewer>" --actor="<operator>"`.
+- /request-review: Create a local review request. Nothing is sent. Use brand and legal roles, with the real reviewer and agreed due date. Run `node scripts/approvals.mjs request-review --brief=<code> --role=brand --reviewer="<reviewer>" --due=YYYY-MM-DD --actor="<operator>"`.
+- /decision: Record a decision already made externally, with its evidence. Never approve for someone else. Decisions are approved, changes or rejected. A correction appends a new decision. Run `node scripts/approvals.mjs decision --brief=<code> --role=brand --reviewer="<reviewer>" --decision=approved --reference="<external decision evidence>" --rationale="<review conclusion>" --date=YYYY-MM-DD --actor="<operator>"`.
+- /record-release: Record a release already performed outside this system. The current version must have supported claims and both review roles approved. This command never publishes or sends. Run `node scripts/approvals.mjs record-release --brief=<code> --date=YYYY-MM-DD --location="<external location>" --reference="<release evidence>" --actor="<operator>"`.
+- /withdraw: Record withdrawal of a brief. This changes local status only. The operator must arrange removal at every external location. Run `node scripts/approvals.mjs withdraw --brief=<code> --reason="<reason>" --reference="<withdrawal evidence>" --actor="<operator>"`.
+- /log: Append a factual note or correction to the brief. Run `node scripts/approvals.mjs log --brief=<code> --body="<factual note>" --actor="<operator>"`.
+- /import: Read docs/replace-intelligencebank.md. Preview a mapped CSV saved from the vendor Excel export. Reconcile counts, then repeat without --dry-run. All imported records are drafts. Run `node scripts/approvals.mjs import intelligencebank <CSV> --map=<JSON> --actor="<operator>" --dry-run`.
+- /export: Save all records, source rows and history to a new private file. Create the destination directory first. Existing files are never overwritten. Run `node scripts/approvals.mjs export --out=exports/<unique-name>.json`.
+- /draft-chase: Prepare a local reminder worksheet. Review each person and current version. Never send. Run `node scripts/approvals.mjs draft-chase`.
+- /draft-brief: Prepare a local brief review draft from actual records. Never publish or send. Run `node scripts/approvals.mjs draft-brief --brief=<code>`.
+- /weekly-review: Run attention, claim-evidence and review-queue first, then generate the draft. Report their actual results and retain the file in drafts/. Never invent missing evidence. Run `node scripts/approvals.mjs weekly-review`.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+/view renders the weekly and evidence reports. /documents renders draft approval packs and launch worksheets. /customise adds a field or changes a local rule through a tested migration. /new-view adds a read-only report. Put the business name, logo and colours in brand.json.
 
-## Want it installed and run for you?
+All reads accept --json. IDs accept unambiguous prefixes; names match without case. Ambiguity lists candidates and exits with an error. Flags use --name=value. All mutations and imports are transactional and recorded with --actor. Actor names are labels, not authenticated signatures. Append a decision or note to correct history; never rewrite it.
 
-Enterprise DNA installs Marketing Approvals for Claude Code for your business, migrates your IntelligenceBank data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Switch with the records you have
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=intelligencebank)
-- Read more: [enterprisedna.co/omni/instead-of/intelligencebank](https://enterprisedna.co/omni/instead-of/intelligencebank?utm_source=github&utm_medium=readme&utm_campaign=intelligencebank)
+Read [the switching guide](docs/replace-intelligencebank.md). Export the vendor Excel records report, save a CSV, map its configured columns, preview and reconcile, then run one import command. The fictional fixture documents the mapping contract. Vendor drafts and attached files are excluded from that export. Historical decisions are not silently treated as current approval.
 
-## License
+```bash
+node scripts/approvals.mjs import intelligencebank fixtures/intelligencebank-records.csv --map=fixtures/intelligencebank-map.json --actor="Demo operator" --dry-run
+```
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+A revision starts a fresh claim inventory and review cycle. Claim inventory freezes when reviews start. Evidence changes after a decision require a revision. Recorded releases require current evidence, both review roles, and dates that cover the recorded release. This records an external action only. Keep operating source services until migration and access controls are checked.
+
+## Ten questions answered from your records
+
+/insights answers these from the current database. They are not claims that IntelligenceBank cannot build custom reports.
+
+1. Which overdue launches still have evidence gaps?
+2. Which environmental claims have expired support?
+3. Which reviewers are holding up more than one brief?
+4. Which campaigns have overdue work?
+5. Which briefs have no claim inventory?
+6. Which current versions are missing a required review role?
+7. Which approved claims need evidence renewed within a month?
+8. Which owners have both late work and missing evidence?
+9. Which briefs need changes rather than another reminder?
+10. Which imported briefs still need local review?
+
+## Your first hour: ten things to ask for
+
+1. Show overdue briefs by owner.
+2. Find environmental claims with expired evidence.
+3. Show each reviewer their outstanding queue.
+4. Tell me which launches are blocked by missing support.
+5. Draft the Monday review.
+6. Prepare an approval pack for the refill campaign.
+7. Show the exact wording behind a decision.
+8. Put our name and colours on the worksheets.
+9. Add our cost-centre field through /customise.
+10. Create a campaign-specific report through /new-view.
+
+## Verification and boundaries
+
+npm test exercises every read and write, seed idempotence, revision invalidation, evidence and approval gates, ambiguity, atomic imports, repeat imports, source conflicts, malformed CSV, JSON exports, local drafts and escaped HTML. The 85-check suite passed locally on Linux with PGlite and Postgres 18. A manual GitHub workflow covers Windows and Linux with PGlite and Linux with Postgres 17. See docs/research.md for the selection evidence.
+
+This is one private database for a trusted operator. The database owner can bypass checks. Do not expose that connection or call the history tamper-proof. A managed deployment needs authenticated access, backups and private evidence storage. Keep source files, exports and generated reports outside Git.

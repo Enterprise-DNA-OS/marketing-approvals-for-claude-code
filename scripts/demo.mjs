@@ -1,0 +1,3 @@
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {spawnSync} from 'node:child_process';
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'marketing-demo-'));
+try{for(const args of [['scripts/seed.mjs'],['scripts/approvals.mjs','attention'],['scripts/approvals.mjs','claim-evidence'],['scripts/approvals.mjs','review-queue'],['scripts/view.mjs'],['scripts/docs.mjs']]){const p=spawnSync(process.execPath,args,{env:{...process.env,DATABASE_URL:'',DATA_DIR:path.join(dir,'db'),OUTPUT_DIR:dir,DEMO_DATA:'yes'},stdio:'inherit'});if(p.status!==0)throw Error('Demo failed');}}finally{fs.rmSync(dir,{recursive:true,force:true});}

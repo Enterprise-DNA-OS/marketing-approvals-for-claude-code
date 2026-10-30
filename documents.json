@@ -1,11 +1,51 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "approval-pack",
+    "title": "DRAFT: marketing approval pack",
+    "for_each": "select id,code from briefs order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Brief",
+        "layout": "record",
+        "sql": "select code,name,campaign,owner,due_on,state,current_version from briefs where id=$1"
+      },
+      {
+        "title": "Current creative wording",
+        "layout": "record",
+        "sql": "select v.version,v.copy,v.channel,v.evidence_ref from versions v join briefs b on b.id=v.brief_id and b.current_version=v.version where b.id=$1"
+      },
+      {
+        "title": "Claim support",
+        "sql": "select c.code,c.statement,c.reference,c.explanation,c.checked_on,c.valid_until from (select cl.code,cl.statement,s.reference,s.explanation,s.checked_on,s.valid_until,v.brief_id from claims cl join versions v on v.id=cl.version_id join briefs b on b.id=v.brief_id and b.current_version=v.version left join substantiations s on s.claim_id=cl.id)c where c.brief_id=$1"
+      },
+      {
+        "title": "Reviewer record",
+        "note": "Declared reviewer names and references require external verification. No authenticated signatures.",
+        "sql": "select r.role,r.reviewer,r.due_on,r.decision,r.reference from v_reviews r join briefs b on b.code=r.brief where b.id=$1"
+      }
+    ]
+  },
+  {
+    "name": "release-checklist",
+    "title": "DRAFT: launch review worksheet",
+    "for_each": "select id,code from briefs order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Readiness",
+        "layout": "record",
+        "sql": "select code,current_version,claim_count,evidence_gaps,review_gaps,review_roles from v_readiness where id=$1"
+      },
+      {
+        "title": "Open record checks",
+        "note": "A clean worksheet does not establish legal compliance or permission to publish. Review the complete creative and supporting evidence.",
+        "sql": "select c.rule,c.finding,c.item from v_compliance c join briefs b on b.code=c.brief where b.id=$1"
+      },
+      {
+        "title": "Recorded external releases",
+        "sql": "select v.version,r.location,r.released_on,r.reference from release_records r join versions v on v.id=r.version_id where v.brief_id=$1"
+      }
     ]
   }
 ]

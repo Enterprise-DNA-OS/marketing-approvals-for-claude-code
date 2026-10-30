@@ -1,13 +1,30 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Marketing Approvals for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Marketing approvals this week",
+    "subtitle": "Private record snapshot, not a publishing service",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Attention",
+        "sql": "select code,name,owner,due_on,state,evidence_gaps,review_gaps from v_readiness where state not in ('released','withdrawn') order by due_on"
+      },
+      {
+        "title": "Review queue",
+        "sql": "select brief,role,reviewer,due_on,decision from v_reviews order by due_on"
+      }
+    ]
+  },
+  {
+    "name": "evidence",
+    "title": "Claims and supporting evidence",
+    "sections": [
+      {
+        "title": "Current wording",
+        "sql": "select brief,code,statement,kind,finding,valid_until from v_claims order by brief"
+      },
+      {
+        "title": "Record checks",
+        "sql": "select * from v_compliance order by brief,rule"
       }
     ]
   }
